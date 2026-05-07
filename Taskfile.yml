@@ -1,0 +1,78 @@
+version: '3'
+
+vars:
+  BINARY_NAME: build/health-aggregator{{if eq OS "windows"}}.exe{{end}}
+
+tasks:
+  default:
+    desc: Build and test the application
+    deps:
+      - task: tidy
+    cmds:
+      - task: fmt
+      - task: lint
+      - task: build
+      - task: coverage
+      - task: integration-test
+
+  tidy:
+    cmds:
+      - go mod tidy
+
+  build:
+    desc: Build the application
+    cmds:
+      - mkdir -p build
+      - go build -o {{.BINARY_NAME}} ./cmd/health-aggregator
+
+  test:
+    desc: Run all tests
+    cmds:
+      - go test -v -cover ./...
+
+  coverage:
+    desc: Run tests and display coverage
+    cmds:
+      - mkdir -p build
+      - go test -v -coverprofile=build/coverage.out ./...
+      - go tool cover -func=build/coverage.out
+    sources:
+      - "**/*.go"
+    generates:
+      - build/coverage.out
+
+  integration-test:
+    desc: Run integration tests using Docker
+    cmds:
+      - task: docker-build
+      - cmd: powershell -ExecutionPolicy Bypass -File ./scripts/integration-test.ps1
+        platforms: [windows]
+      - cmd: bash ./scripts/integration-test.sh
+        platforms: [linux, darwin]
+
+  lint:
+    desc: Run go vet and helm lint to check for issues
+    cmds:
+      - go vet ./...
+      - helm lint helm/health-aggregator
+
+  fmt:
+    desc: Format the source code
+    cmds:
+      - gofmt -w .
+
+  run:
+    desc: Run the application
+    cmds:
+      - build/{{.BINARY_NAME}}
+    deps: [build]
+
+  docker-build:
+    desc: Build the Docker image
+    cmds:
+      - docker build -t health-aggregator:latest .
+
+  docker-run:
+    desc: Run the application in a Docker container
+    cmds:
+      - docker run --rm health-aggregator:latest

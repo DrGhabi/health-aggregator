@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "health-aggregator.fullname" . }}-svc
+  labels:
+    {{- include "health-aggregator.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.mainPort }}
+      targetPort: main
+      protocol: TCP
+      name: main
+    - port: {{ .Values.service.healthPort }}
+      targetPort: health
+      protocol: TCP
+      name: health
+  selector:
+    {{- include "health-aggregator.selectorLabels" . | nindent 4 }}
