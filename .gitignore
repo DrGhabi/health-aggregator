@@ -6,4 +6,7 @@ tmp/
 # build
 .task/
 build/
+vendor/
 coverage.out
+health-aggregator
+health-aggregator.exe

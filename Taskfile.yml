@@ -23,7 +23,7 @@ tasks:
     desc: Build the application
     cmds:
       - mkdir -p build
-      - go build -o {{.BINARY_NAME}} ./cmd/health-aggregator
+      - go build -mod vendor -v -o {{.BINARY_NAME}} ./cmd/health-aggregator
 
   test:
     desc: Run all tests
@@ -53,6 +53,7 @@ tasks:
   lint:
     desc: Run go vet and helm lint to check for issues
     cmds:
+      - go mod vendor
       - go vet ./...
       - helm lint helm/health-aggregator
 
@@ -64,7 +65,7 @@ tasks:
   run:
     desc: Run the application
     cmds:
-      - build/{{.BINARY_NAME}}
+      - ./{{.BINARY_NAME}}
     deps: [build]
 
   docker-build:
