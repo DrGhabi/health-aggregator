@@ -17,7 +17,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: DrGhabi/health-aggregator
 
 concurrency:
   group: docker-${{ github.ref }}
