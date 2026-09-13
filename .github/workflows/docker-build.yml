@@ -1,15 +1,27 @@
-name: Docker Build
+name: Docker
 
 on:
   push:
     branches:
-      - master
-    tags:
-      - 'v*'
+      - fix/*
+#    branches:
+#      - master
+#    tags:
+#      - 'v*'
+#  workflow_run:
+#    workflows: [ "CI" ]
+#    branches: [ main ]
+#    tags: [ 'v*' ]
+#    types:
+#      - completed
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+
+concurrency:
+  group: docker-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   docker:

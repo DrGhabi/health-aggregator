@@ -1,12 +1,14 @@
 # dev
 .idea
 *.iml
+.env
 tmp/
+bin/
 
 # build
 .task/
 build/
 vendor/
-coverage.out
+coverage.*
 health-aggregator
 health-aggregator.exe

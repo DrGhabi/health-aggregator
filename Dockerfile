@@ -1,10 +1,10 @@
 # Build stage
 FROM golang:1.26-alpine AS builder
 
-ENV GO_VERSION=1.26.5
-ENV GOROOT /usr/local/go
-ENV GOPATH /go
-ENV PATH $GOROOT/bin:$GOPATH/bin:$PATH
+ENV GO_VERSION=1.26.8
+ENV GOROOT=/usr/local/go
+ENV GOPATH=/go
+ENV PATH=$GOROOT/bin:$GOPATH/bin:$PATH
 
 
 RUN mkdir -p ${GOROOT} ${GOPATH}/src ${GOPATH}/bin /app
