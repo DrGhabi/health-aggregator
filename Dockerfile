@@ -39,6 +39,9 @@ RUN go build -mod vendor -v -o health-aggregator ./cmd/health-aggregator
 # Final stage
 FROM alpine:latest
 
+LABEL org.opencontainers.image.source=https://github.com/DrGhabi/health-aggregator
+LABEL org.opencontainers.image.authors="Achraf Ghabi"
+
 # Create a non-root user
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
