@@ -2,18 +2,15 @@ name: Docker
 
 on:
   push:
-    branches:
-      - fix/*
-#    branches:
-#      - master
-#    tags:
-#      - 'v*'
-#  workflow_run:
-#    workflows: [ "CI" ]
-#    branches: [ main ]
-#    tags: [ 'v*' ]
-#    types:
-#      - completed
+    tags:
+      - 'v*'
+  workflow_run:
+    workflows: [ "CI" ]
+    branches: [ main ]
+    types:
+      - completed
+
+  workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
@@ -26,6 +23,7 @@ concurrency:
 jobs:
   docker:
     runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     permissions:
       contents: read
       packages: write
