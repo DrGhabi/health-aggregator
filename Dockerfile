@@ -1,10 +1,10 @@
 # Build stage
 FROM golang:1.26-alpine AS builder
 
-ENV GO_VERSION=1.26.5
-ENV GOROOT /usr/local/go
-ENV GOPATH /go
-ENV PATH $GOROOT/bin:$GOPATH/bin:$PATH
+ENV GO_VERSION=1.26.8
+ENV GOROOT=/usr/local/go
+ENV GOPATH=/go
+ENV PATH=$GOROOT/bin:$GOPATH/bin:$PATH
 
 
 RUN mkdir -p ${GOROOT} ${GOPATH}/src ${GOPATH}/bin /app
@@ -38,6 +38,9 @@ RUN go build -mod vendor -v -o health-aggregator ./cmd/health-aggregator
 
 # Final stage
 FROM alpine:latest
+
+LABEL org.opencontainers.image.source=https://github.com/DrGhabi/health-aggregator
+LABEL org.opencontainers.image.authors="Achraf Ghabi"
 
 # Create a non-root user
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup

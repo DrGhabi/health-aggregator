@@ -34,12 +34,12 @@ tasks:
     desc: Run tests and display coverage
     cmds:
       - mkdir -p build
-      - go test -v -coverprofile=build/coverage.out ./...
-      - go tool cover -func=build/coverage.out
+      - go test -v -coverprofile=coverage.txt
+      - go tool cover -func=coverage.txt
     sources:
       - "**/*.go"
     generates:
-      - build/coverage.out
+      - coverage.txt
 
   integration-test:
     desc: Run integration tests using Docker
@@ -77,3 +77,19 @@ tasks:
     desc: Run the application in a Docker container
     cmds:
       - docker run --rm health-aggregator:latest
+
+  act-ci:
+    desc: Run ci workflow
+    cmds:
+      - act -P ubuntu-latest=catthehacker/ubuntu:act-22.04 -W .github/workflows/ci.yml
+
+  act-docker:
+    desc: Run docker workflow
+    cmds:
+      - act -P ubuntu-latest=catthehacker/ubuntu:act-22.04 -W .github/workflows/docker-build.yml
+
+  act:
+    desc: Run all workflows
+    cmds:
+      - task: act-ci
+      - task: act-docker
