@@ -81,9 +81,9 @@ When enabled, the application provides Prometheus metrics at the configured endp
 
 | Metric Name | Type | Labels | Description |
 | ----------- | ---- | ------ | ----------- |
-| `aggregup_resources_total` | Gauge | `namespace`, `resource_type` | Total number of monitored resources. |
-| `aggregup_resources_healthy` | Gauge | `namespace`, `resource_type` | Number of healthy monitored resources. |
-| `aggregup_namespace_health` | Gauge | `namespace` | Overall health of the namespace (1=up, 0.5=warning, 0=down). |
+| `heaggreg_resources_total` | Gauge | `namespace`, `resource_type` | Total number of monitored resources. |
+| `heaggreg_resources_healthy` | Gauge | `namespace`, `resource_type` | Number of healthy monitored resources. |
+| `heaggreg_namespace_health` | Gauge | `namespace` | Overall health of the namespace (1=up, 0.5=warning, 0=down). |
 
 ### Metric Values for Namespace Health
 - `1.0`: Healthy (`up`)

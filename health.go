@@ -160,21 +160,21 @@ func (a *Aggregator) initMetrics() {
 	a.metricsOnce.Do(func() {
 		a.metricResourcesTotal = prometheus.NewGaugeVec(
 			prometheus.GaugeOpts{
-				Name: "aggregup_resources_total",
+				Name: "heaggreg_resources_total",
 				Help: "Total number of monitored resources",
 			},
 			[]string{"namespace", "resource_type"},
 		)
 		a.metricResourcesHealthy = prometheus.NewGaugeVec(
 			prometheus.GaugeOpts{
-				Name: "aggregup_resources_healthy",
+				Name: "heaggreg_resources_healthy",
 				Help: "Number of healthy monitored resources",
 			},
 			[]string{"namespace", "resource_type"},
 		)
 		a.metricNamespaceHealth = prometheus.NewGaugeVec(
 			prometheus.GaugeOpts{
-				Name: "aggregup_namespace_health",
+				Name: "heaggreg_namespace_health",
 				Help: "Overall health of the namespace (1=up, 0.5=warning, 0=down)",
 			},
 			[]string{"namespace"},

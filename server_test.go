@@ -433,7 +433,7 @@ func TestAggregator_MetricsHandler(t *testing.T) {
 	}
 
 	output := rr.Body.String()
-	if !strings.Contains(output, "aggregup_namespace_health") {
+	if !strings.Contains(output, "heaggreg_namespace_health") {
 		t.Errorf("metrics output does not contain expected metric: %s", output)
 	}
 }
@@ -468,9 +468,9 @@ func TestAggregator_Report_WithMetrics(t *testing.T) {
 
 	output := rr.Body.String()
 	expectedMetrics := []string{
-		`aggregup_namespace_health{namespace="default"} 1`,
-		`aggregup_resources_total{namespace="default",resource_type="pod"} 1`,
-		`aggregup_resources_healthy{namespace="default",resource_type="pod"} 1`,
+		`heaggreg_namespace_health{namespace="default"} 1`,
+		`heaggreg_resources_total{namespace="default",resource_type="pod"} 1`,
+		`heaggreg_resources_healthy{namespace="default",resource_type="pod"} 1`,
 	}
 
 	for _, m := range expectedMetrics {
