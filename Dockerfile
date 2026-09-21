@@ -1,5 +1,5 @@
 # Build stage
-FROM golang:1.26-alpine AS builder
+FROM golang:1.26.8-alpine3.24 AS builder
 
 ENV GO_VERSION=1.26.8
 ENV GOROOT=/usr/local/go
@@ -9,7 +9,8 @@ ENV PATH=$GOROOT/bin:$GOPATH/bin:$PATH
 
 RUN mkdir -p ${GOROOT} ${GOPATH}/src ${GOPATH}/bin /app
 
-COPY --from=golang:1.26.8-alpine3.23 /usr/local/go/ /usr/local/go/
+# Use this when a different image is used for build.
+# COPY --from=golang:1.26.8-alpine3.23 /usr/local/go/ /usr/local/go/
 
 RUN XC_ARCH=amd64 && \
     XC_OS=linux && \
@@ -18,7 +19,8 @@ RUN XC_ARCH=amd64 && \
     set -xe && \
     apk upgrade --no-cache && \
     rm -rf /var/cache/apk/* && \
-	go version
+    v=`go version | { read _ _ v _; echo ${v#go}; }` && \
+	test "$v" == "$GO_VERSION"
 
 WORKDIR /app
 
@@ -38,7 +40,7 @@ RUN go build -mod vendor -v -o health-aggregator ./cmd/health-aggregator
 
 # -------------------------------
 # Final stage
-FROM alpine:latest
+FROM alpine:3.24
 
 LABEL org.opencontainers.image.source=https://github.com/DrGhabi/health-aggregator
 LABEL org.opencontainers.image.authors="Achraf Ghabi"
