@@ -9,7 +9,7 @@ ENV PATH=$GOROOT/bin:$GOPATH/bin:$PATH
 
 RUN mkdir -p ${GOROOT} ${GOPATH}/src ${GOPATH}/bin /app
 
-COPY --from=golang:1.26.5-alpine3.23 /usr/local/go/ /usr/local/go/
+COPY --from=golang:1.26.8-alpine3.23 /usr/local/go/ /usr/local/go/
 
 RUN XC_ARCH=amd64 && \
     XC_OS=linux && \
@@ -36,6 +36,7 @@ RUN go mod vendor
 # We use -o health-aggregator (no .exe for Linux container)
 RUN go build -mod vendor -v -o health-aggregator ./cmd/health-aggregator
 
+# -------------------------------
 # Final stage
 FROM alpine:latest
 
