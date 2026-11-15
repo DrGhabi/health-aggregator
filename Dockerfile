@@ -1,5 +1,5 @@
 # Build stage
-FROM golang:1.27.3-alpine3.24 AS builder
+FROM golang:1.27.4-alpine3.24 AS builder
 
 ENV GO_VERSION=1.27.3
 ENV GOROOT=/usr/local/go
